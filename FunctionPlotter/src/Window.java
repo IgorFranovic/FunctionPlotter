@@ -1,8 +1,7 @@
-import java.awt.Frame;
+import javax.swing.JFrame;
 
-public class Window {
+public class Window extends JFrame {
 	// code for the GUI of the program
 	
 	
-	Frame frame = new Frame("Function Plotter");
 }
