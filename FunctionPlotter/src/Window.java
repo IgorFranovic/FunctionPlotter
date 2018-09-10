@@ -1,11 +1,11 @@
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class Window extends JFrame {
 	// code for the GUI of the program
@@ -20,13 +20,16 @@ public class Window extends JFrame {
 	
 	public static JButton JButtonDraw;
 	
+	
+	public static Plotter plotter;
+	
 	public Window(String windowName, int WIDTH, int HEIGHT) {
 		
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setTitle(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		this.setLayout(null);
+		this.setLayout(new FlowLayout());
 		
 		
 		
@@ -37,22 +40,22 @@ public class Window extends JFrame {
 		this.add(JTextAreaFunction);
 		
 		//JTextAreaMinX
-		JTextAreaMinX = new JTextArea();
+		JTextAreaMinX = new JTextArea("-5");
 		JTextAreaMinX.setBounds(30, 200, 50, 40);
 		this.add(JTextAreaMinX);
 		
 		//JTextAreaMaxX
-		JTextAreaMaxX = new JTextArea();
+		JTextAreaMaxX = new JTextArea("5");
 		JTextAreaMaxX.setBounds(100, 200, 50, 40);
 		this.add(JTextAreaMaxX);
 		
 		//JTextAreaMinY
-		JTextAreaMinY = new JTextArea();
+		JTextAreaMinY = new JTextArea("-5");
 		JTextAreaMinY.setBounds(30, 300, 50, 40);
 		this.add(JTextAreaMinY);
 
 		//JTextAreaMaxY
-		JTextAreaMaxY = new JTextArea();
+		JTextAreaMaxY = new JTextArea("5");
 		JTextAreaMaxY.setBounds(100, 300, 50, 40);
 		this.add(JTextAreaMaxY);
 		
@@ -64,6 +67,10 @@ public class Window extends JFrame {
 		this.add(JButtonDraw);
 		
 		
+		//Plotter
+		plotter = new Plotter(500, 500, -5, 5, -5, 5);
+		plotter.setPreferredSize(new Dimension(500, 500));
+		this.add(plotter);
 		
 		
 		this.setVisible(true);
@@ -81,8 +88,13 @@ public class Window extends JFrame {
 					
 					//add code for drawing the function here
 					
+					double xmin = Double.parseDouble(JTextAreaMinX.getText());
+					double xmax = Double.parseDouble(JTextAreaMaxX.getText());
+					double ymin = Double.parseDouble(JTextAreaMinY.getText());
+					double ymax = Double.parseDouble(JTextAreaMaxY.getText());
 					
-					
+					plotter.reset(xmin, xmax, ymin, ymax);
+					plotter.repaint();
 					
 					
 				} break;
