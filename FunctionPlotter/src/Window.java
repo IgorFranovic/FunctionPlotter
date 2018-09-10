@@ -27,7 +27,7 @@ public class Window extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
-//		this.addKeyListener(new KeyInput());
+		
 		
 		
 		
@@ -60,6 +60,7 @@ public class Window extends JFrame {
 		JButtonDraw = new JButton("Draw");
 		JButtonDraw.setBounds(30, 120, 120, 40);
 		JButtonDraw.setActionCommand("JButtonDraw");
+		JButtonDraw.addKeyListener(new KeyInput());
 		this.add(JButtonDraw);
 		
 		
