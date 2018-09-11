@@ -81,6 +81,7 @@ public class Window extends JFrame {
 		textAreaQueue.add(JTextAreaFunction); textAreaQueue.add(JTextAreaMinX); textAreaQueue.add(JTextAreaMaxX);
 		textAreaQueue.add(JTextAreaMinY); 	  textAreaQueue.add(JTextAreaMaxY);
 		
+		
 		this.setVisible(true);
 	}
 	

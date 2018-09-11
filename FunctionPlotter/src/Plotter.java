@@ -23,6 +23,8 @@ public class Plotter extends JPanel {
 		this.ymax = ymax;
 		this.precX = (xmax - xmin) / width;
 		this.precY = (ymax - ymin) / height;
+		
+		this.addMouseListener(new MouseInput());
 	}
 	
 	public void reset(double xmin, double xmax, double ymin, double ymax) {
