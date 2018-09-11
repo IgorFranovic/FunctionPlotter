@@ -22,14 +22,18 @@ public class Window extends JFrame {
 	
 	
 	public static Plotter plotter;
+	private int plotterDimension;
 	
+	
+
 	public Window(String windowName, int WIDTH, int HEIGHT) {
 		
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setTitle(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		this.setLayout(new FlowLayout());
+//		this.setLayout(new FlowLayout());
+		this.setLayout(null);
 		
 		
 		
@@ -64,12 +68,16 @@ public class Window extends JFrame {
 		JButtonDraw.setBounds(30, 120, 120, 40);
 		JButtonDraw.setActionCommand("JButtonDraw");
 		JButtonDraw.addKeyListener(new KeyInput());
+		JButtonDraw.addActionListener(new ButtonListener());
 		this.add(JButtonDraw);
 		
 		
+		plotterDimension = WIDTH - 400;
+		
 		//Plotter
-		plotter = new Plotter(500, 500, -5, 5, -5, 5);
-		plotter.setPreferredSize(new Dimension(500, 500));
+		plotter = new Plotter(plotterDimension, plotterDimension, -5, 5, -5, 5);
+		plotter.setBounds(400, 0, 1200, 800);
+		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
 		
 		
@@ -103,5 +111,6 @@ public class Window extends JFrame {
 		}
 		
 	}
+	
 	
 }

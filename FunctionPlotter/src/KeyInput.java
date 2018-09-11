@@ -6,8 +6,6 @@ public class KeyInput extends KeyAdapter {
 	public void keyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
 		
-		if(key == KeyEvent.VK_ESCAPE) System.exit(1);
-		
 		switch(key) {
 			
 			case KeyEvent.VK_ESCAPE : System.exit(1);
