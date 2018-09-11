@@ -11,11 +11,11 @@ public class Window extends JFrame {
 	// code for the GUI of the program
 	
 	
-	public static JTextArea JTextAreaFunction;
-	public static JTextArea JTextAreaMinX;
-	public static JTextArea JTextAreaMaxX;
-	public static JTextArea JTextAreaMinY;
-	public static JTextArea JTextAreaMaxY;
+	public static TextAreaCustom JTextAreaFunction;
+	public static TextAreaCustom JTextAreaMinX;
+	public static TextAreaCustom JTextAreaMaxX;
+	public static TextAreaCustom JTextAreaMinY;
+	public static TextAreaCustom JTextAreaMaxY;
 	
 	
 	public static JButton JButtonDraw;
@@ -39,33 +39,28 @@ public class Window extends JFrame {
 		
 		
 		//JTextAreaFunction
-		JTextAreaFunction = new JTextArea("Enter your function here! ");
-		JTextAreaFunction.setBounds(30, 50, 120, 40);
+		JTextAreaFunction = new TextAreaCustom("", "Enter your function here! ", 3, 1, 10, 1);
 		this.add(JTextAreaFunction);
 		
 		//JTextAreaMinX
-		JTextAreaMinX = new JTextArea("-5");
-		JTextAreaMinX.setBounds(30, 200, 50, 40);
+		JTextAreaMinX = new TextAreaCustom("-5", "MinX", 5, 6, 2, 0.5);
 		this.add(JTextAreaMinX);
 		
 		//JTextAreaMaxX
-		JTextAreaMaxX = new JTextArea("5");
-		JTextAreaMaxX.setBounds(100, 200, 50, 40);
+		JTextAreaMaxX = new TextAreaCustom("5", "MaxX", 8, 6, 2, 0.5);
 		this.add(JTextAreaMaxX);
 		
 		//JTextAreaMinY
-		JTextAreaMinY = new JTextArea("-5");
-		JTextAreaMinY.setBounds(30, 300, 50, 40);
+		JTextAreaMinY = new TextAreaCustom("-5", "MinY", 5, 9, 2, 0.5);
 		this.add(JTextAreaMinY);
 
 		//JTextAreaMaxY
-		JTextAreaMaxY = new JTextArea("5");
-		JTextAreaMaxY.setBounds(100, 300, 50, 40);
+		JTextAreaMaxY = new TextAreaCustom("5", "MaxY", 8, 9, 2, 0.5);
 		this.add(JTextAreaMaxY);
 		
 		//JButtonDraw
 		JButtonDraw = new JButton("Draw");
-		JButtonDraw.setBounds(30, 120, 120, 40);
+		JButtonDraw.setBounds(100, 120, 120, 40);
 		JButtonDraw.setActionCommand("JButtonDraw");
 		JButtonDraw.addKeyListener(new KeyInput());
 		JButtonDraw.addActionListener(new ButtonListener());

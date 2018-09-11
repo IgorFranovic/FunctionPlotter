@@ -10,7 +10,10 @@ public class KeyInput extends KeyAdapter {
 			
 			case KeyEvent.VK_ESCAPE : System.exit(1);
 				break;
-			case KeyEvent.VK_ENTER : Window.JButtonDraw.doClick();
+			case KeyEvent.VK_ENTER : {
+				if(!Window.JTextAreaFunction.hasFocus())
+					Window.JButtonDraw.doClick();
+			}
 				break;
 		}
 	}
