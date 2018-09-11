@@ -15,11 +15,42 @@ public class KeyInput extends KeyAdapter {
 				if(!Window.JTextAreaFunction.hasFocus())
 					Window.JButtonDraw.doClick();
 			} break;
-			case KeyEvent.VK_SHIFT : {
-				Window.textAreaQueue.add(Window.textAreaQueue.poll());
-				Window.textAreaQueue.peek().grabFocus();
+			case KeyEvent.VK_ALT : {
+				// to the right
+				updateTextAreaSelection();
+				if(Window.textAreaSelected >= Window.textAreaArray.length - 1) {
+					Window.textAreaSelected = 0;
+					Window.textAreaArray[0].grabFocus();
+				} else {
+					Window.textAreaSelected ++;
+					Window.textAreaArray[Window.textAreaSelected].grabFocus();
+				}
 			} break;
+			case KeyEvent.VK_SHIFT : {
+				// to the left
+				updateTextAreaSelection();
+				if(Window.textAreaSelected == 0) {
+					Window.textAreaSelected = Window.textAreaArray.length - 1;
+					Window.textAreaArray[Window.textAreaSelected].grabFocus();
+				} else {
+					Window.textAreaSelected --;
+					Window.textAreaArray[Window.textAreaSelected].grabFocus();
+				}
+				
+			}
 		}
+	}
+	public void updateTextAreaSelection() {
+		if(Window.JTextAreaFunction.hasFocus())
+			Window.textAreaSelected = 0;
+		else if(Window.JTextAreaMinX.hasFocus())
+			Window.textAreaSelected = 1;
+		else if(Window.JTextAreaMaxX.hasFocus())
+			Window.textAreaSelected = 2;
+		else if(Window.JTextAreaMinY.hasFocus())
+			Window.textAreaSelected = 3;
+		else if(Window.JTextAreaMaxY.hasFocus())
+			Window.textAreaSelected = 4;
 	}
 
 		

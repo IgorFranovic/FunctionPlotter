@@ -24,8 +24,7 @@ public class Window extends JFrame {
 	public static Plotter plotter;
 	private int plotterDimension;
 	
-	public static Queue<TextAreaCustom> textAreaQueue = new LinkedList<TextAreaCustom>();
-
+	public static TextAreaCustom [] textAreaArray;
 	public static int textAreaSelected = 0;
 	
 	public Window(String windowName, int WIDTH, int HEIGHT) {
@@ -34,7 +33,6 @@ public class Window extends JFrame {
 		this.setTitle(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-//		this.setLayout(new FlowLayout());
 		this.setLayout(null);
 		
 		
@@ -76,11 +74,14 @@ public class Window extends JFrame {
 		plotter.setBounds(400, 0, 1200, 800);
 		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
+				
+		textAreaArray = new TextAreaCustom[5];
 		
-		
-		textAreaQueue.add(JTextAreaFunction); textAreaQueue.add(JTextAreaMinX); textAreaQueue.add(JTextAreaMaxX);
-		textAreaQueue.add(JTextAreaMinY); 	  textAreaQueue.add(JTextAreaMaxY);
-		
+		textAreaArray[0] = JTextAreaFunction;
+		textAreaArray[1] = JTextAreaMinX;
+		textAreaArray[2] = JTextAreaMaxX;
+		textAreaArray[3] = JTextAreaMinY;
+		textAreaArray[4] = JTextAreaMaxY;
 		
 		this.setVisible(true);
 	}
