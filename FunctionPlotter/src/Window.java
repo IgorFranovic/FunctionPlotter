@@ -69,7 +69,7 @@ public class Window extends JFrame {
 		this.add(JButtonDraw);
 		
 		
-		plotterDimension = WIDTH - 400;
+		plotterDimension = 800;
 		
 		//Plotter
 		plotter = new Plotter(plotterDimension, plotterDimension, -5, 5, -5, 5);
