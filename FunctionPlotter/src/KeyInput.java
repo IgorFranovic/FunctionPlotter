@@ -3,6 +3,7 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 	
+	
 	public void keyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
 		
@@ -13,8 +14,11 @@ public class KeyInput extends KeyAdapter {
 			case KeyEvent.VK_ENTER : {
 				if(!Window.JTextAreaFunction.hasFocus())
 					Window.JButtonDraw.doClick();
-			}
-				break;
+			} break;
+			case KeyEvent.VK_SHIFT : {
+				Window.textAreaQueue.add(Window.textAreaQueue.poll());
+				Window.textAreaQueue.peek().grabFocus();
+			} break;
 		}
 	}
 

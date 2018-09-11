@@ -1,11 +1,11 @@
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 
 public class Window extends JFrame {
 	// code for the GUI of the program
@@ -24,8 +24,10 @@ public class Window extends JFrame {
 	public static Plotter plotter;
 	private int plotterDimension;
 	
-	
+	public static Queue<TextAreaCustom> textAreaQueue = new LinkedList<TextAreaCustom>();
 
+	public static int textAreaSelected = 0;
+	
 	public Window(String windowName, int WIDTH, int HEIGHT) {
 		
 		this.setSize(new Dimension(WIDTH, HEIGHT));
@@ -75,6 +77,9 @@ public class Window extends JFrame {
 		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
 		
+		
+		textAreaQueue.add(JTextAreaFunction); textAreaQueue.add(JTextAreaMinX); textAreaQueue.add(JTextAreaMaxX);
+		textAreaQueue.add(JTextAreaMinY); 	  textAreaQueue.add(JTextAreaMaxY);
 		
 		this.setVisible(true);
 	}
