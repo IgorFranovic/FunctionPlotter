@@ -6,6 +6,7 @@ public class Main {
 		
 		Window window = new Window("Function Plotter", 1217, 840);
 		
+		
 	}
 
 }

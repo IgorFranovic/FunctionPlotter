@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -10,11 +11,14 @@ public class Plotter extends JPanel {
 	 */
 	private static final long serialVersionUID = 75304563973285884L;
 	
+	private Parser parser;
+	
 	private int width, height;
 	private double xmin, xmax, ymin, ymax;
 	private double precX, precY;
 
-	public Plotter(int width, int height, double xmin, double xmax, double ymin, double ymax) {
+	public Plotter(String function, int width, int height, double xmin, double xmax, double ymin, double ymax) {
+		this.parser = new Parser(function);
 		this.width = width;
 		this.height = height;
 		this.xmin = xmin;
@@ -27,7 +31,8 @@ public class Plotter extends JPanel {
 		this.addMouseListener(new MouseInput());
 	}
 	
-	public void reset(double xmin, double xmax, double ymin, double ymax) {
+	public void reset(String function, double xmin, double xmax, double ymin, double ymax) {
+		this.parser = new Parser(function);
 		this.xmin = xmin;
 		this.xmax = xmax;
 		this.ymin = ymin;
@@ -36,8 +41,8 @@ public class Plotter extends JPanel {
 		this.precY = (ymax - ymin) / height;
 	}
 	
-	private double f(double x) {
-		return Math.cbrt(Math.pow(x, 3) - 8);
+	private double f(double x) throws Exception {
+		return parser.eval(x);
 	}
 	
 	private void drawAxes(Graphics g) {
@@ -52,7 +57,7 @@ public class Plotter extends JPanel {
 		}
 	}
 	
-	private void drawFunction(Graphics g) {
+	private void drawFunction(Graphics g) throws Exception {
 		g.setColor(Color.RED);
 		for(int i = 0; i < width; i++) {
 			double x1 = xmin + i*precX;
@@ -67,7 +72,14 @@ public class Plotter extends JPanel {
 	protected void paintComponent(Graphics g) {
 		g.clearRect(0, 0, width, height);
 		drawAxes(g);
-		drawFunction(g);
+		try {
+			drawFunction(g);
+		}
+		catch (Exception e) {
+			System.out.println("ne valja");
+			g.setFont(new Font("courier", 1, 40));
+			g.drawString("ERROR", this.getWidth()-20, this.getHeight()/2);
+		}
 	}
 	
 }

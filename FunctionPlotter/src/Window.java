@@ -70,7 +70,7 @@ public class Window extends JFrame {
 		plotterDimension = 800;
 		
 		//Plotter
-		plotter = new Plotter(plotterDimension, plotterDimension, -5, 5, -5, 5);
+		plotter = new Plotter("sin(x)", plotterDimension, plotterDimension, -5, 5, -5, 5);
 		plotter.setBounds(400, 0, 1200, 800);
 		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
@@ -98,12 +98,13 @@ public class Window extends JFrame {
 					
 					//add code for drawing the function here
 					
+					String function = JTextAreaFunction.getText();
 					double xmin = Double.parseDouble(JTextAreaMinX.getText());
 					double xmax = Double.parseDouble(JTextAreaMaxX.getText());
 					double ymin = Double.parseDouble(JTextAreaMinY.getText());
 					double ymax = Double.parseDouble(JTextAreaMaxY.getText());
 					
-					plotter.reset(xmin, xmax, ymin, ymax);
+					plotter.reset(function, xmin, xmax, ymin, ymax);
 					plotter.repaint();
 					
 					
