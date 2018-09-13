@@ -54,17 +54,21 @@ public class Parser {
 				list.add(temp.substring(0, 1));
 				temp = temp.substring(1);
 			}
-			else if(temp.matches("^(neg|abs|sgn|exp|log|sin|cos|tan|cot).*$")) {
-				list.add(temp.substring(0, 3));
-				temp = temp.substring(3);
-			}
-			else if(temp.matches("^(asin|acos|atan|acot|sinh|cosh|tanh|coth).*$")) {
+			else if(temp.matches("^(sinh|cosh|tanh|coth).*$")) {
 				list.add(temp.substring(0, 4));
 				temp = temp.substring(4);
 			}
 			else if(temp.matches("^(asinh|acosh|atanh|acoth).*$")) {
 				list.add(temp.substring(0, 5));
 				temp = temp.substring(5);
+			}
+			else if(temp.matches("^(neg|abs|sgn|exp|log|sin|cos|tan|cot).*$")) {
+				list.add(temp.substring(0, 3));
+				temp = temp.substring(3);
+			}
+			else if(temp.matches("^(asin|acos|atan|acot).*$")) {
+				list.add(temp.substring(0, 4));
+				temp = temp.substring(4);
 			}
 			else {
 				throw new Exception();
@@ -178,16 +182,6 @@ public class Parser {
 					operand2 = stack.pop();
 					stack.push(Math.pow(operand2, operand1));
 					break;
-				case "min":
-					operand1 = stack.pop();
-					operand2 = stack.pop();
-					stack.push(Math.min(operand1, operand2));
-					break;
-				case "max":
-					operand1 = stack.pop();
-					operand2 = stack.pop();
-					stack.push(Math.max(operand1, operand2));
-					break;
 				// solving negative inverses
 				case "neg":
 					operand1 = stack.pop();
@@ -208,6 +202,38 @@ public class Parser {
 				case "log":
 					operand1 = stack.pop();
 					stack.push(Math.log(operand1));
+					break;
+				case "sinh":
+					operand1 = stack.pop();
+					stack.push(Math.sinh(operand1));
+					break;
+				case "cosh":
+					operand1 = stack.pop();
+					stack.push(Math.cosh(operand1));
+					break;
+				case "tanh":
+					operand1 = stack.pop();
+					stack.push(Math.tanh(operand1));
+					break;
+				case "coth":
+					operand1 = stack.pop();
+					stack.push(1/Math.tanh(operand1));
+					break;
+				case "asinh":
+					operand1 = stack.pop();
+					stack.push(Math.log(operand1 + Math.sqrt(operand1*operand1 + 1)));
+					break;
+				case "acosh":
+					operand1 = stack.pop();
+					stack.push(Math.log(operand1 + Math.sqrt(operand1*operand1 - 1)));
+					break;
+				case "atanh":
+					operand1 = stack.pop();
+					stack.push(Math.log((1 + operand1)/(1 - operand1))/2);
+					break;
+				case "acoth":
+					operand1 = stack.pop();
+					stack.push(Math.log((1 + operand1)/(operand1 - 1))/2);
 					break;
 				case "sin":
 					operand1 = stack.pop();
@@ -240,38 +266,6 @@ public class Parser {
 				case "acot":
 					operand1 = stack.pop();
 					stack.push(Math.PI/2 - Math.atan(operand1));
-					break;
-				case "sinh":
-					operand1 = stack.pop();
-					stack.push(Math.sinh(operand1));
-					break;
-				case "cosh":
-					operand1 = stack.pop();
-					stack.push(Math.cosh(operand1));
-					break;
-				case "tanh":
-					operand1 = stack.pop();
-					stack.push(Math.tanh(operand1));
-					break;
-				case "coth":
-					operand1 = stack.pop();
-					stack.push(1/Math.tan(operand1));
-					break;
-				case "asinh":
-					operand1 = stack.pop();
-					stack.push(Math.log(operand1 + Math.sqrt(operand1*operand1 + 1)));
-					break;
-				case "acosh":
-					operand1 = stack.pop();
-					stack.push(Math.log(operand1 + Math.sqrt(operand1*operand1 - 1)));
-					break;
-				case "atanh":
-					operand1 = stack.pop();
-					stack.push(Math.log((1 + operand1)/(1 - operand1))/2);
-					break;
-				case "acoth":
-					operand1 = stack.pop();
-					stack.push(Math.log((1 + operand1)/(operand1 - 1))/2);
 					break;
 				}
 			}
