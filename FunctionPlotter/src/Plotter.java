@@ -59,8 +59,15 @@ public class Plotter extends JPanel {
 	
 	private void drawFunction(Graphics g) throws Exception {
 		g.setColor(Color.RED);
+		boolean changed = false;
 		for(int i = 0; i < width; i++) {
 			double x1 = xmin + i*precX;
+			System.out.println("x1: "+x1);
+			if(x1 > -precX && changed == false) {
+				x1 = precX;
+				i = (int) ((x1 - xmin) / precX);
+				changed = true;
+			}
 			double y1 = f(x1);
 			double x2 = x1 + precX;
 			double y2 = f(x2);
