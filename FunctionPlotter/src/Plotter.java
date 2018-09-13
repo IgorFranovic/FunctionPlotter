@@ -60,9 +60,21 @@ public class Plotter extends JPanel {
 	private void drawFunction(Graphics g) throws Exception {
 		g.setColor(Color.RED);
 		boolean changed = false;
+		int halfWidth = width / 2, halfHeight = height / 2;
+		//x axis grid
+		for(int i = (int)xmin; i <= (int)(xmax); i++) {
+			double scale = halfWidth / xmax;
+			g.drawString(""+i, (int) (halfWidth + i*scale - 5) , halfHeight + 20);
+		}
+		//y axis grid
+		for(int i = (int)ymin; i <= (int)(ymax); i++) {
+			double scale = halfHeight / ymax;
+			if(i != 0)
+				g.drawString(""+i, (int) (halfWidth + 5) , (int)(halfHeight - (i * scale)));	
+		}
+		
 		for(int i = 0; i < width; i++) {
 			double x1 = xmin + i*precX;
-			System.out.println("x1: "+x1);
 			if(x1 > -precX && changed == false) {
 				x1 = precX;
 				i = (int) ((x1 - xmin) / precX);
@@ -73,6 +85,7 @@ public class Plotter extends JPanel {
 			double y2 = f(x2);
 			g.drawLine(i, height - (int)((y1 - ymin) / precY), i+1, height - (int)((y2 - ymin) / precY));
 		}
+		
 	}
 
 	@Override

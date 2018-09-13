@@ -35,11 +35,12 @@ public class Window extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		
-		
+		//CHANGE INIT FUNCTION HERE
+		String initFunction = "sin(2*x) - log(3*x) + 2";
 		
 		
 		//JTextAreaFunction
-		JTextAreaFunction = new TextAreaCustom("", "Enter your function here! ", 3, 1, 10, 1);
+		JTextAreaFunction = new TextAreaCustom(initFunction, "Enter your function here! ", 3, 1, 10, 1);
 		this.add(JTextAreaFunction);
 		
 		//JTextAreaMinX
@@ -69,8 +70,10 @@ public class Window extends JFrame {
 		
 		plotterDimension = 800;
 		
+		// change initFunction on line 39
+		
 		//Plotter
-		plotter = new Plotter("sin(x)", plotterDimension, plotterDimension, -5, 5, -5, 5);
+		plotter = new Plotter(initFunction, plotterDimension, plotterDimension, -5, 5, -5, 5);
 		plotter.setBounds(400, 0, 1200, 800);
 		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
