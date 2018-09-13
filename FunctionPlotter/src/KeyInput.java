@@ -26,7 +26,7 @@ public class KeyInput extends KeyAdapter {
 					Window.textAreaArray[Window.textAreaSelected].grabFocus();
 				}
 			} break;
-			case KeyEvent.VK_SHIFT : {
+			case KeyEvent.VK_CONTROL : {
 				// to the left
 				updateTextAreaSelection();
 				if(Window.textAreaSelected == 0) {
