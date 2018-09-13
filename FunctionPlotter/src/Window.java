@@ -26,6 +26,7 @@ public class Window extends JFrame {
 	
 	public static TextAreaCustom [] textAreaArray;
 	public static int textAreaSelected = 0;
+	private double xMin, xMax, yMin, yMax;
 	
 	public Window(String windowName, int WIDTH, int HEIGHT) {
 		
@@ -59,6 +60,8 @@ public class Window extends JFrame {
 		JTextAreaMaxY = new TextAreaCustom("5", "MaxY", 8, 9, 2, 0.5);
 		this.add(JTextAreaMaxY);
 		
+
+		
 		//JButtonDraw
 		JButtonDraw = new JButton("Draw");
 		JButtonDraw.setBounds(100, 120, 120, 40);
@@ -69,12 +72,16 @@ public class Window extends JFrame {
 		
 		
 		plotterDimension = 800;
+		this.xMin = Double.parseDouble(JTextAreaMinX.getText());
+		this.xMax = Double.parseDouble(JTextAreaMaxX.getText());
+		this.yMin = Double.parseDouble(JTextAreaMinY.getText());
+		this.yMax = Double.parseDouble(JTextAreaMaxY.getText());
 		
 		// change initFunction on line 39
 		
 		//Plotter
-		plotter = new Plotter(initFunction, plotterDimension, plotterDimension, -5, 5, -5, 5);
-		plotter.setBounds(400, 0, 1200, 800);
+		plotter = new Plotter(initFunction, plotterDimension, plotterDimension, xMin, xMax, yMin, yMax);
+		plotter.setBounds(400, 0, 1200, 800); 
 		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
 				

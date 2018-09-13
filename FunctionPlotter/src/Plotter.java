@@ -62,12 +62,21 @@ public class Plotter extends JPanel {
 		boolean changed = false;
 		int halfWidth = width / 2, halfHeight = height / 2;
 		//x axis grid
-		for(int i = (int)xmin; i <= (int)(xmax); i++) {
+		for(int i = (int)xmin; i <= 0; i++) {
+			double scale = halfWidth / xmax;
+			g.drawString(""+i, (int) (halfWidth + i*scale - 5) , halfHeight + 20);
+		}
+		for(int i = 0; i <= (int)(xmax); i++) {
 			double scale = halfWidth / xmax;
 			g.drawString(""+i, (int) (halfWidth + i*scale - 5) , halfHeight + 20);
 		}
 		//y axis grid
-		for(int i = (int)ymin; i <= (int)(ymax); i++) {
+		for(int i = (int)ymin; i <= 0; i++) {
+			double scale = halfHeight / ymax;
+			if(i != 0)
+				g.drawString(""+i, (int) (halfWidth + 5) , (int)(halfHeight - (i * scale)));	
+		}
+		for(int i = 0; i <= (int)(ymax); i++) {
 			double scale = halfHeight / ymax;
 			if(i != 0)
 				g.drawString(""+i, (int) (halfWidth + 5) , (int)(halfHeight - (i * scale)));	
