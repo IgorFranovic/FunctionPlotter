@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 
 public class Window extends JFrame {
 	// code for the GUI of the program
@@ -16,6 +17,9 @@ public class Window extends JFrame {
 	public static TextAreaCustom JTextAreaMaxX;
 	public static TextAreaCustom JTextAreaMinY;
 	public static TextAreaCustom JTextAreaMaxY;
+	
+	public static JSlider zoomSlider;
+	public static int zoomPercentage = 0;
 	
 	
 	public static JButton JButtonDraw;
@@ -77,7 +81,13 @@ public class Window extends JFrame {
 		this.yMin = Double.parseDouble(JTextAreaMinY.getText());
 		this.yMax = Double.parseDouble(JTextAreaMaxY.getText());
 		
-		// change initFunction on line 39
+		// change initFunction on line 40
+		
+		//JSlider
+		zoomSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 1);
+		zoomSlider.setBounds(50, 500, 300, 40);
+		this.add(zoomSlider);
+		
 		
 		//Plotter
 		plotter = new Plotter(initFunction, plotterDimension, plotterDimension, xMin, xMax, yMin, yMax);
