@@ -31,10 +31,10 @@ public class Parser {
 		String temp = this.function;
 		String arg;
 		if(x < 0) {
-			arg = "neg" + Double.toString(-x);
+			arg = "neg" + String.format("%.16f", -x);
 		}
 		else {
-			arg = Double.toString(x);
+			arg = String.format("%.16f", x);
 		}
 		for(int i = 0; i < temp.length(); i++) {
 			if(temp.charAt(i) == 'x') {
@@ -71,6 +71,7 @@ public class Parser {
 				temp = temp.substring(4);
 			}
 			else {
+				System.out.println(temp);
 				throw new Exception();
 			}
 		}

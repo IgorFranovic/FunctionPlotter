@@ -60,7 +60,6 @@ public class Plotter extends JPanel {
 	
 	private void drawFunction(Graphics g) throws Exception {
 		g.setColor(Color.RED);
-		boolean changed = false;
 		int halfWidth = width / 2, halfHeight = height / 2;
 		//x axis grid
 		for(int i = (int)xmin; i <= 0; i++) {
@@ -85,11 +84,6 @@ public class Plotter extends JPanel {
 		
 		for(int i = 0; i < width; i++) {
 			double x1 = xmin + i*precX;
-			if(x1 > -precX && changed == false) {
-				x1 = precX;
-				i = (int) ((x1 - xmin) / precX);
-				changed = true;
-			}
 			double y1 = f(x1);
 			double x2 = x1 + precX;
 			double y2 = f(x2);
@@ -106,7 +100,7 @@ public class Plotter extends JPanel {
 			drawFunction(g);
 		}
 		catch (Exception e) {
-			System.out.println("ne valja");
+			e.printStackTrace();
 			g.setFont(new Font("courier", 1, 40));
 			g.drawString("ERROR", this.getWidth()-20, this.getHeight()/2);
 		}
