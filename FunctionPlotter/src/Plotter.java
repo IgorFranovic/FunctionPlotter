@@ -60,26 +60,25 @@ public class Plotter extends JPanel {
 	
 	private void drawFunction(Graphics g) throws Exception {
 		g.setColor(Color.RED);
-		int halfWidth = width / 2, halfHeight = height / 2;
+		
+		int halfDim = width / 2;
+		double scale = halfDim / xmax;
 		//x axis grid
 		for(int i = (int)xmin; i <= 0; i++) {
-			double scale = halfWidth / xmax;
-			g.drawString(""+i, (int) (halfWidth + i*scale - 5) , halfHeight + 20);
+			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
 		}
 		for(int i = 0; i <= (int)(xmax); i++) {
-			double scale = halfWidth / xmax;
-			g.drawString(""+i, (int) (halfWidth + i*scale - 5) , halfHeight + 20);
+			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
 		}
+		scale = halfDim / ymax;
 		//y axis grid
 		for(int i = (int)ymin; i <= 0; i++) {
-			double scale = halfHeight / ymax;
 			if(i != 0)
-				g.drawString(""+i, (int) (halfWidth + 5) , (int)(halfHeight - (i * scale)));	
+				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
 		}
 		for(int i = 0; i <= (int)(ymax); i++) {
-			double scale = halfHeight / ymax;
 			if(i != 0)
-				g.drawString(""+i, (int) (halfWidth + 5) , (int)(halfHeight - (i * scale)));	
+				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
 		}
 		
 		for(int i = 0; i < width; i++) {
