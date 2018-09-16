@@ -49,19 +49,19 @@ public class Window extends JFrame {
 		this.add(JTextAreaFunction);
 		
 		//JTextAreaMinX
-		JTextAreaMinX = new TextAreaCustom("-3", "MinX", 5, 6, 2, 0.5);
+		JTextAreaMinX = new TextAreaCustom("-5", "MinX", 5, 6, 2, 0.5);
 		this.add(JTextAreaMinX);
 		
 		//JTextAreaMaxX
-		JTextAreaMaxX = new TextAreaCustom("1", "MaxX", 8, 6, 2, 0.5);
+		JTextAreaMaxX = new TextAreaCustom("5", "MaxX", 8, 6, 2, 0.5);
 		this.add(JTextAreaMaxX);
 		
 		//JTextAreaMinY
-		JTextAreaMinY = new TextAreaCustom("-2", "MinY", 5, 9, 2, 0.5);
+		JTextAreaMinY = new TextAreaCustom("-5", "MinY", 5, 9, 2, 0.5);
 		this.add(JTextAreaMinY);
 
 		//JTextAreaMaxY
-		JTextAreaMaxY = new TextAreaCustom("2", "MaxY", 8, 9, 2, 0.5);
+		JTextAreaMaxY = new TextAreaCustom("5", "MaxY", 8, 9, 2, 0.5);
 		this.add(JTextAreaMaxY);
 		
 

@@ -37,8 +37,18 @@ public class Parser {
 			arg = String.format("%.16f", x);
 		}
 		for(int i = 0; i < temp.length(); i++) {
-			if(temp.charAt(i) == 'x') {
+			if(temp.charAt(i) == 'x' && 
+			   ((i > 0 && i < temp.length()-1 && "+-*/^()".indexOf(temp.charAt(i-1)) >= 0 && "+-*/^()".indexOf(temp.charAt(i+1)) >= 0) || 
+				(i == 0 && "+-*/^".indexOf(temp.charAt(i+1)) >= 0) || 
+				(i == temp.length()-1 && "+-*/^".indexOf(temp.charAt(i-1)) >= 0))) {
+				
 				temp = temp.substring(0, i) + arg + temp.substring(i+1);
+			}
+			else if(temp.charAt(i) == 'E') {
+				temp = temp.substring(0, i) + String.format("%.16f", Math.E) + temp.substring(i+1);
+			}
+			else if(temp.substring(i).matches("^PI.*$")) {
+				temp = temp.substring(0, i) + String.format("%.16f", Math.PI) + temp.substring(i+2);
 			}
 		}
 		while(temp.length() > 0) {
@@ -54,11 +64,11 @@ public class Parser {
 				list.add(temp.substring(0, 1));
 				temp = temp.substring(1);
 			}
-			else if(temp.matches("^(sinh|cosh|tanh|coth).*$")) {
+			else if(temp.matches("^(sqrt|cbrt|ceil|sinh|cosh|tanh|coth).*$")) {
 				list.add(temp.substring(0, 4));
 				temp = temp.substring(4);
 			}
-			else if(temp.matches("^(asinh|acosh|atanh|acoth).*$")) {
+			else if(temp.matches("^(floor|asinh|acosh|atanh|acoth).*$")) {
 				list.add(temp.substring(0, 5));
 				temp = temp.substring(5);
 			}
@@ -203,6 +213,22 @@ public class Parser {
 				case "log":
 					operand1 = stack.pop();
 					stack.push(Math.log(operand1));
+					break;
+				case "sqrt":
+					operand1 = stack.pop();
+					stack.push(Math.sqrt(operand1));
+					break;
+				case "cbrt":
+					operand1 = stack.pop();
+					stack.push(Math.cbrt(operand1));
+					break;
+				case "ceil":
+					operand1 = stack.pop();
+					stack.push(Math.ceil(operand1));
+					break;
+				case "floor":
+					operand1 = stack.pop();
+					stack.push(Math.floor(operand1));
 					break;
 				case "sinh":
 					operand1 = stack.pop();
