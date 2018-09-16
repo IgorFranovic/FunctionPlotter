@@ -1,8 +1,9 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import javax.swing.JSlider;
 public class Window extends JFrame {
 	// code for the GUI of the program
 	
+	public static Color[] colorArray;
 	
 	public static TextAreaCustom JTextAreaFunction;
 	public static TextAreaCustom JTextAreaMinX;
@@ -21,9 +23,12 @@ public class Window extends JFrame {
 	public static JSlider zoomSlider;
 	public static int zoomPercentage = 0;
 	
+	static Random random;
 	
 	public static JButton JButtonDraw;
+	public static JButton JButtonUndo;
 	
+	public static LinkedList<Function> FunctionList = new LinkedList<Function>();
 	
 	public static Plotter plotter;
 	private int plotterDimension;
@@ -34,6 +39,9 @@ public class Window extends JFrame {
 	
 	public Window(String windowName, int WIDTH, int HEIGHT) {
 		
+		random = new Random();
+		colorArray = new Color[5];
+		colorArray[0] = Color.yellow; colorArray[1] = Color.blue; colorArray[2] = Color.GRAY; colorArray[3] = Color.BLACK; colorArray[4] = Color.GREEN;
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setTitle(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +51,9 @@ public class Window extends JFrame {
 		//CHANGE INIT FUNCTION HERE
 		String initFunction = "x^2";
 		
+//		Color col = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+		
+		FunctionList.add(new Function(initFunction, Color.red));
 		
 		//JTextAreaFunction
 		JTextAreaFunction = new TextAreaCustom(initFunction, "Enter your function here! ", 3, 1, 10, 1);
@@ -73,6 +84,14 @@ public class Window extends JFrame {
 		JButtonDraw.addKeyListener(new KeyInput());
 		JButtonDraw.addActionListener(new ButtonListener());
 		this.add(JButtonDraw);
+		
+		//JButtonUndo
+		JButtonUndo = new JButton("Undo");
+		JButtonUndo.setBounds(100, 600, 120, 40);
+		JButtonUndo.setActionCommand("JButtonUndo");
+		JButtonUndo.addKeyListener(new KeyInput());
+		JButtonUndo.addActionListener(new ButtonListener());
+		this.add(JButtonUndo);
 		
 		
 		plotterDimension = 800;
@@ -119,6 +138,9 @@ public class Window extends JFrame {
 					//add code for drawing the function here
 					
 					String function = JTextAreaFunction.getText();
+//					Color col = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+					Color col = colorArray[FunctionList.size() - 1];
+					FunctionList.add(new Function(function, col));
 					double xmin = Double.parseDouble(JTextAreaMinX.getText());
 					double xmax = Double.parseDouble(JTextAreaMaxX.getText());
 					double ymin = Double.parseDouble(JTextAreaMinY.getText());
@@ -129,11 +151,16 @@ public class Window extends JFrame {
 					
 					
 				} break;
+				case "JButtonUndo" : {
+					FunctionList.removeLast();
+					plotter.repaint();
+				}
 			}
 			
 		}
 		
 	}
+	
 	
 	
 }

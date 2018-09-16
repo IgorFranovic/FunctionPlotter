@@ -1,8 +1,12 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.Random;
 
 import javax.swing.JPanel;
+
 
 public class Plotter extends JPanel {
 
@@ -63,39 +67,14 @@ public class Plotter extends JPanel {
 	}
 	
 	private void drawFunction(Graphics g) throws Exception {
-		g.setColor(Color.RED);
+//		g.setColor(Color.RED);
 		
 		double absXMIN = Math.abs(xmin);
 		double absXMAX = Math.abs(xmax);
 		
 		double absYMIN = Math.abs(ymin);
 		double absYMAX = Math.abs(ymax);
-		
-		
-		
-		double absMAXx = Math.max(absXMIN, absXMAX);
-		double absMAXy = Math.max(absYMIN, absYMAX);
-		
-		int halfDim = width / 2;
-		double scale = halfDim / absMAXx;
-		//x axis grid
-		for(int i = (int)xmin; i <= 0; i++) {
-			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
-		}
-		for(int i = 0; i <= (int)(xmax); i++) {
-			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
-		}
-		scale = halfDim / absMAXy;
-		//y axis grid
-		for(int i = (int)ymin; i <= 0; i++) {
-			if(i != 0)
-				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
-		}
-		for(int i = 0; i <= (int)(ymax); i++) {
-			if(i != 0)
-				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
-		}
-		
+	
 		for(int i = 0; i < width; i++) {
 			double x1 = xmin + i*precX;
 			double y1 = f(x1);
@@ -127,13 +106,57 @@ public class Plotter extends JPanel {
 		}
 		
 	}
+	private void drawGrid(Graphics g) {
+		g.setColor(Color.black);
+		double absXMIN = Math.abs(xmin);
+		double absXMAX = Math.abs(xmax);
+		
+		double absYMIN = Math.abs(ymin);
+		double absYMAX = Math.abs(ymax);
+		double absMAXx = Math.max(absXMIN, absXMAX);
+		double absMAXy = Math.max(absYMIN, absYMAX);
+		int halfDim = width / 2;
+		double scale = halfDim / absMAXx;
+		//x axis grid
+		for(int i = (int)xmin; i <= 0; i++) {
+			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
+		}
+		for(int i = 0; i <= (int)(xmax); i++) {
+			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
+		}
+		scale = halfDim / absMAXy;
+		//y axis grid
+		for(int i = (int)ymin; i <= 0; i++) {
+			if(i != 0)
+				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
+		}
+		for(int i = 0; i <= (int)(ymax); i++) {
+			if(i != 0)
+				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
+		}
+	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g2) {
+		Graphics2D g = (Graphics2D)g2;
+		
 		g.clearRect(0, 0, width, height);
 		drawAxes(g);
+		drawGrid(g);
+		Random r = new Random();
+		g.setStroke(new BasicStroke(2));
+		int funcNum = 0;
+		g.setFont(new Font("arial", 1, 20));
 		try {
-			drawFunction(g);
+			for(Function function : Window.FunctionList) {
+				
+				reset(function.function, xmin, xmax, ymin, ymax);
+				g.setColor(function.color);
+				g.drawString(function.function, 50, 50 + (funcNum * 30));
+				drawFunction(g);
+				funcNum ++;
+			}
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
