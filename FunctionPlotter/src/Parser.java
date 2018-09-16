@@ -37,11 +37,7 @@ public class Parser {
 			arg = String.format("%.16f", x);
 		}
 		for(int i = 0; i < temp.length(); i++) {
-			if(temp.charAt(i) == 'x' && 
-			   ((i > 0 && i < temp.length()-1 && "+-*/^()".indexOf(temp.charAt(i-1)) >= 0 && "+-*/^()".indexOf(temp.charAt(i+1)) >= 0) || 
-				(i == 0 && "+-*/^".indexOf(temp.charAt(i+1)) >= 0) || 
-				(i == temp.length()-1 && "+-*/^".indexOf(temp.charAt(i-1)) >= 0))) {
-				
+			if(temp.charAt(i) == 'x' && !(i > 0 && temp.substring(i-1).matches("^exp.*$"))) {
 				temp = temp.substring(0, i) + arg + temp.substring(i+1);
 			}
 			else if(temp.charAt(i) == 'E') {
