@@ -1,12 +1,23 @@
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JSlider;
 
 public class Window extends JFrame {
@@ -25,8 +36,18 @@ public class Window extends JFrame {
 	
 	static Random random;
 	
-	public static JButton JButtonDraw;
-	public static JButton JButtonUndo;
+	public static JButtonCustom JButtonDraw;
+	public static JButtonCustom JButtonUndo;
+	public static JButtonCustom JButtonLink;
+	
+	public static JLabel JLabelTitle;
+	public static JLabel JLabelValuesX;
+	public static JLabel JLabelValuesY;
+	public static JLabel JLabelZoom;
+	public static JLabel JLabelAuthors;
+	public static JLabel JLabelCodeLink;
+	
+
 	
 	public static LinkedList<Function> FunctionList = new LinkedList<Function>();
 	
@@ -39,9 +60,11 @@ public class Window extends JFrame {
 	
 	public Window(String windowName, int WIDTH, int HEIGHT) {
 		
+		
+		
 		random = new Random();
-		colorArray = new Color[5];
-		colorArray[0] = Color.yellow; colorArray[1] = Color.blue; colorArray[2] = Color.GRAY; colorArray[3] = Color.BLACK; colorArray[4] = Color.GREEN;
+		colorArray = new Color[6];
+		colorArray[0] = Color.yellow; colorArray[1] = Color.blue; colorArray[2] = Color.GRAY; colorArray[3] = Color.BLACK; colorArray[4] = Color.GREEN; colorArray[5] = Color.DARK_GRAY;
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setTitle(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,56 +74,50 @@ public class Window extends JFrame {
 		//CHANGE INIT FUNCTION HERE
 		String initFunction = "x^2";
 		
-//		Color col = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
 		
 		FunctionList.add(new Function(initFunction, Color.red));
 		
 		//JTextAreaFunction
-		JTextAreaFunction = new TextAreaCustom(initFunction, "Enter your function here! ", 3, 1, 10, 1);
+		JTextAreaFunction = new TextAreaCustom(initFunction, "Enter your function here! ", 5, 1.5, 10, 1);
 		this.add(JTextAreaFunction);
 		
 		//JTextAreaMinX
-		JTextAreaMinX = new TextAreaCustom("-5", "MinX", 5, 6, 2, 0.5);
+		JTextAreaMinX = new TextAreaCustom("-5", "MinX", 7.5, 6, 2, 0.5);
 		this.add(JTextAreaMinX);
 		
 		//JTextAreaMaxX
-		JTextAreaMaxX = new TextAreaCustom("5", "MaxX", 8, 6, 2, 0.5);
+		JTextAreaMaxX = new TextAreaCustom("5", "MaxX", 10.5, 6, 2, 0.5);
 		this.add(JTextAreaMaxX);
 		
 		//JTextAreaMinY
-		JTextAreaMinY = new TextAreaCustom("-5", "MinY", 5, 9, 2, 0.5);
+		JTextAreaMinY = new TextAreaCustom("-5", "MinY", 7.5, 9, 2, 0.5);
 		this.add(JTextAreaMinY);
 
 		//JTextAreaMaxY
-		JTextAreaMaxY = new TextAreaCustom("5", "MaxY", 8, 9, 2, 0.5);
+		JTextAreaMaxY = new TextAreaCustom("5", "MaxY", 10.5, 9, 2, 0.5);
 		this.add(JTextAreaMaxY);
 		
 
-		
+		ButtonListener bl = new ButtonListener();
 		//JButtonDraw
-		JButtonDraw = new JButton("Draw");
-		JButtonDraw.setBounds(100, 120, 120, 40);
-		JButtonDraw.setActionCommand("JButtonDraw");
-		JButtonDraw.addKeyListener(new KeyInput());
-		JButtonDraw.addActionListener(new ButtonListener());
+		JButtonDraw = new JButtonCustom("JButtonDraw", "resources/imgDraw.png");
+		JButtonDraw.setBounds(140, 120, 120, 40);
 		this.add(JButtonDraw);
 		
 		//JButtonUndo
-		JButtonUndo = new JButton("Undo");
-		JButtonUndo.setBounds(100, 600, 120, 40);
-		JButtonUndo.setActionCommand("JButtonUndo");
-		JButtonUndo.addKeyListener(new KeyInput());
-		JButtonUndo.addActionListener(new ButtonListener());
+		JButtonUndo = new JButtonCustom("JButtonUndo", "resources/imgUndo.png");
+		JButtonUndo.setBounds(140, 600, 120, 40);
 		this.add(JButtonUndo);
+			
+		//JButtonLink
+		JButtonLink = new JButtonCustom("JButtonLink", "resources/imgGit.png");
+		JButtonLink.setBounds(150, 750, 100, 50);
+		this.add(JButtonLink);
 		
-		
-		plotterDimension = 800;
-		this.xMin = Double.parseDouble(JTextAreaMinX.getText());
-		this.xMax = Double.parseDouble(JTextAreaMaxX.getText());
-		this.yMin = Double.parseDouble(JTextAreaMinY.getText());
-		this.yMax = Double.parseDouble(JTextAreaMaxY.getText());
+	
 		
 		// change initFunction on line 40
+		
 		
 		//JSlider
 		zoomSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 1);
@@ -109,10 +126,51 @@ public class Window extends JFrame {
 		
 		
 		//Plotter
+		plotterDimension = 800;
+		this.xMin = Double.parseDouble(JTextAreaMinX.getText());
+		this.xMax = Double.parseDouble(JTextAreaMaxX.getText());
+		this.yMin = Double.parseDouble(JTextAreaMinY.getText());
+		this.yMax = Double.parseDouble(JTextAreaMaxY.getText());
+		
 		plotter = new Plotter(initFunction, plotterDimension, plotterDimension, xMin, xMax, yMin, yMax);
 		plotter.setBounds(400, 0, 1200, 800); 
 		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
+		
+		
+		//JLabels
+		JLabelTitle = new JLabel("Function Plotter");
+		JLabelTitle.setFont(new Font("serif", 1, 25));
+		JLabelTitle.setForeground(Color.BLUE);
+		JLabelTitle.setBounds(110, 0, 250, 50);
+		this.add(JLabelTitle);
+		
+		
+		JLabelValuesX = new JLabel("(min X, max X)");
+		JLabelValuesX.setFont(new Font("helvetica", 1, 12));
+		JLabelValuesX.setForeground(Color.BLACK);
+		JLabelValuesX.setBounds(160, 200, 250, 50);
+		this.add(JLabelValuesX);
+		
+		JLabelValuesY = new JLabel("(min Y, max Y)");
+		JLabelValuesY.setFont(new Font("helvetica", 1, 12));
+		JLabelValuesY.setForeground(Color.BLACK);
+		JLabelValuesY.setBounds(160, 320, 250, 50);
+		this.add(JLabelValuesY);
+		
+		JLabelZoom = new JLabel("Zoom");
+		JLabelZoom.setFont(new Font("helvetica", 1, 12));
+		JLabelZoom.setForeground(Color.BLACK);
+		JLabelZoom.setBounds(180, 465, 250, 50);
+		this.add(JLabelZoom);
+		
+		JLabelZoom = new JLabel("Created by Nikola Pižurica and Igor Franović");
+		JLabelZoom.setFont(new Font("arial", 1, 10));
+		JLabelZoom.setForeground(Color.GRAY);
+		JLabelZoom.setBounds(80, 715, 250, 50);
+		this.add(JLabelZoom);
+		
+	
 				
 		textAreaArray = new TextAreaCustom[5];
 		
@@ -123,7 +181,10 @@ public class Window extends JFrame {
 		textAreaArray[4] = JTextAreaMaxY;
 		
 		this.setVisible(true);
+		
+	
 	}
+	
 	
 	public static class ButtonListener implements ActionListener {
 
@@ -135,11 +196,17 @@ public class Window extends JFrame {
 				
 				case "JButtonDraw" : {
 					
-					//add code for drawing the function here
 					
 					String function = JTextAreaFunction.getText();
-//					Color col = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
-					Color col = colorArray[FunctionList.size() - 1];
+					
+					//Don't draw the same function twice in a row
+					if(FunctionList.size() > 0 && function.equalsIgnoreCase(FunctionList.get(FunctionList.size()-1).function)) 
+						break;
+					
+					Color col = Color.red;
+					if(FunctionList.size() > 0) 
+						col = colorArray[(FunctionList.size() - 1) % colorArray.length];
+					
 					FunctionList.add(new Function(function, col));
 					double xmin = Double.parseDouble(JTextAreaMinX.getText());
 					double xmax = Double.parseDouble(JTextAreaMaxX.getText());
@@ -154,10 +221,21 @@ public class Window extends JFrame {
 				case "JButtonUndo" : {
 					FunctionList.removeLast();
 					plotter.repaint();
+				} break;
+				case "JButtonLink" : {
+					openWebpage("https://github.com/IgorFranovic/FunctionPlotter");
 				}
 			}
 			
 		}
+		public static void openWebpage(String urlString) {
+		    try {
+		        Desktop.getDesktop().browse(new URL(urlString).toURI());
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		}
+		
 		
 	}
 	
