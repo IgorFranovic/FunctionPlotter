@@ -26,6 +26,7 @@ public class KeyInput extends KeyAdapter {
 					Window.textAreaArray[Window.textAreaSelected].grabFocus();
 				}
 			} break;
+			/*
 			case KeyEvent.VK_CONTROL : {
 				// to the left
 				updateTextAreaSelection();
@@ -38,6 +39,7 @@ public class KeyInput extends KeyAdapter {
 				}
 				
 			}
+			*/
 		}
 	}
 	public void updateTextAreaSelection() {

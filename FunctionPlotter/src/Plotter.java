@@ -98,10 +98,13 @@ public class Plotter extends JPanel {
 			}
 			//margin of error
 			double moe = 1;
+		
+			if(Math.abs(Math.abs(yStartingPoint) - Math.abs(yEndingPoint)) < width / 40) {
 			if(y2 < ymax * moe && y2 > ymin * moe && x1 < xmax * moe && x1 > xmin * moe) {
 				g.drawLine(i + offsetX, yStartingPoint + offsetY, i + 1 + offsetX, yEndingPoint + offsetY);
 			}
 			
+			}
 
 		}
 		
