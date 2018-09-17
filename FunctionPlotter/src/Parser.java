@@ -31,7 +31,7 @@ public class Parser {
 		String temp = this.function;
 		String arg;
 		if(x < 0) {
-			arg = "neg" + String.format("%.16f", -x);
+			arg = "(neg" + String.format("%.16f", -x) + ")";
 		}
 		else {
 			arg = String.format("%.16f", x);
@@ -132,7 +132,8 @@ public class Parser {
 				if(temp.length() == 1) {
 					while(!stack.isEmpty()) {
 						String top = stack.peek();
-						if(precedence(top) > precedence(temp) || (precedence(top) == precedence(temp) && isLeftAssociative(top))) {
+						if((precedence(top) > precedence(temp) || (precedence(top) == precedence(temp) && isLeftAssociative(top))) &&
+							!(top.equals("neg") && temp.equals("^"))) {
 							postfix.add(stack.pop());
 						}
 						else {
