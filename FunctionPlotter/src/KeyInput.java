@@ -15,15 +15,18 @@ public class KeyInput extends KeyAdapter {
 				if(!Window.JTextAreaFunction.hasFocus())
 					Window.JButtonDraw.doClick();
 			} break;
-			case KeyEvent.VK_ALT : {
+			case KeyEvent.VK_TAB : {
 				// to the right
 				updateTextAreaSelection();
 				if(Window.textAreaSelected >= Window.textAreaArray.length - 1) {
 					Window.textAreaSelected = 0;
 					Window.textAreaArray[0].grabFocus();
+					removeWhitespace(Window.textAreaArray[Window.textAreaArray.length - 1]);
 				} else {
+					removeWhitespace(Window.textAreaArray[Window.textAreaSelected]);
 					Window.textAreaSelected ++;
 					Window.textAreaArray[Window.textAreaSelected].grabFocus();
+					
 				}
 			} break;
 			/*
@@ -41,6 +44,15 @@ public class KeyInput extends KeyAdapter {
 			}
 			*/
 		}
+	}
+	public void removeWhitespace(TextAreaCustom textArea) {
+		int i = 0;
+		//remove leading whitespace
+		for(i = 0; textArea.getText().charAt(i) == ' '; i++) {}		
+		textArea.setText(textArea.getText().substring(i));	
+		//remove final whitespace
+		for(i = textArea.getText().length() - 1; textArea.getText().charAt(i) == ' '; i--) {}
+		textArea.setText(textArea.getText().substring(0, i + 1));
 	}
 	public void updateTextAreaSelection() {
 		if(Window.JTextAreaFunction.hasFocus())
