@@ -2,23 +2,18 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 
 public class Window extends JFrame {
 	// code for the GUI of the program
@@ -72,6 +67,7 @@ public class Window extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		
+		
 		//CHANGE INIT FUNCTION HERE
 		String initFunction = "x^2";
 		
@@ -97,31 +93,29 @@ public class Window extends JFrame {
 		//JTextAreaMaxY
 		JTextAreaMaxY = new TextAreaCustom("5", "MaxY", 10.5, 9, 2, 0.5);
 		this.add(JTextAreaMaxY);
-		
-
-		ButtonListener bl = new ButtonListener();
+	
 		//JButtonDraw
-		JButtonDraw = new JButtonCustom("JButtonDraw", "resources/imgDraw.png");
+		JButtonDraw = new JButtonCustom("JButtonDraw", "resources/imgDraw.png", "Draw the function!");
 		JButtonDraw.setBounds(140, 120, 120, 40);
 		this.add(JButtonDraw);
 		
 		//JButtonUndo
-		JButtonUndo = new JButtonCustom("JButtonUndo", "resources/imgUndo.png");
+		JButtonUndo = new JButtonCustom("JButtonUndo", "resources/imgUndo.png", "Undo last draw!");
 		JButtonUndo.setBounds(140, 600, 120, 40);
 		this.add(JButtonUndo);
 			
 		//JButtonLink
-		JButtonLink = new JButtonCustom("JButtonLink", "resources/imgGit.png");
+		JButtonLink = new JButtonCustom("JButtonLink", "resources/imgGit.png", "Visit code location!");
 		JButtonLink.setBounds(150, 750, 100, 50);
 		this.add(JButtonLink);
 		
 		//JButtonClear
-		JButtonClear = new JButtonCustom("JButtonClear", "resources/imgClear.png");
+		JButtonClear = new JButtonCustom("JButtonClear", "resources/imgClear.png", "Left click to clear function field. Right click to clear x and y values!");
 		JButtonClear.setBounds(330, 70, 20, 20);
 		this.add(JButtonClear);
 	
 		
-		// change initFunction on line 40
+		// change initFunction on line 75
 		
 		
 		//JSlider
@@ -243,10 +237,6 @@ public class Window extends JFrame {
 		        e.printStackTrace();
 		    }
 		}
-		
-		
 	}
-	
-	
-	
+
 }
