@@ -226,6 +226,7 @@ public class Window extends JFrame {
 				} break;
 				case "JButtonClear" : {
 					JTextAreaFunction.setText("");
+					JTextAreaFunction.grabFocus();
 				} break;
 			}
 			

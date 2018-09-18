@@ -42,6 +42,7 @@ public class JButtonCustom extends JButton {
 				Window.JTextAreaMaxX.setText("");
 				Window.JTextAreaMinY.setText("");
 				Window.JTextAreaMaxY.setText("");
+				Window.JTextAreaMinX.grabFocus();
 			}
 		}
 	}
