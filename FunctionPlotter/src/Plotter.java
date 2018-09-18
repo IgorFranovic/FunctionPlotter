@@ -50,121 +50,120 @@ public class Plotter extends JPanel {
 		return parser.eval(x);
 	}
 	
-	private void drawAxes(Graphics g) {
+	private void drawGrid(Graphics2D g) {
 		g.setColor(Color.BLACK);
-		/*
+		g.setFont(new Font("arial", 1, 20));
+		int segmentX, segmentY;
+		if((xmax - xmin)/10 >= 1) {
+			segmentX = (int)((xmax - xmin)/10);
+		}
+		else {
+			segmentX = 1;
+		}
+		if((ymax - ymin)/10 >= 1) {
+			segmentY = (int)((ymax - ymin)/10);
+		}
+		else {
+			segmentY = 1;
+		}
+		int x0, y0;
+		BasicStroke b1 = new BasicStroke(1);
+		BasicStroke b2 = new BasicStroke(2);
 		if(xmin <= 0 && xmax > 0) {
-			int x0 = (int)(-xmin / precX);
+			x0 = (int)(-xmin / precX);
+			g.setColor(Color.BLACK);
+			g.setStroke(b2);
 			g.drawLine(x0, 0, x0, height);
 		}
+		else {
+			x0 = 20;
+		}
+		g.setStroke(b1);
+		for(int i = (int)ymin; i <= ymax; i += segmentY) {
+			int y = height - (int)((i - ymin) / precY);
+			g.setColor(Color.BLACK);
+			g.drawString(Integer.toString(i), x0-20, y+20);
+			g.setColor(Color.LIGHT_GRAY);
+			g.drawLine(0, y, width, y);
+		}
 		if(ymin <= 0 && ymax > 0) {
-			int y0 = height - (int)(-ymin / precY);
+			y0 = height - (int)(-ymin / precY);
+			g.setColor(Color.BLACK);
+			g.setStroke(b2);
 			g.drawLine(0, y0, width, y0);
 		}
-		*/
-		g.drawLine(width / 2, 0, width / 2, height);
-		g.drawLine(0, height / 2, width, height /2);
+		else {
+			y0 = height-20;
+		}
+		g.setStroke(b1);
+		for(int i = (int)xmin; i <= xmax; i += segmentX) {
+			int x = (int)((i - xmin) / precX);
+			g.setColor(Color.BLACK);
+			g.drawString(Integer.toString(i), x-20, y0+20);
+			g.setColor(Color.LIGHT_GRAY);
+			g.drawLine(x, 0, x, height);
+		}
 	}
 	
 	private void drawFunction(Graphics g) throws Exception {
-//		g.setColor(Color.RED);
-		
-		double absXMIN = Math.abs(xmin);
-		double absXMAX = Math.abs(xmax);
-		
-		double absYMIN = Math.abs(ymin);
-		double absYMAX = Math.abs(ymax);
-	
+		double x1, y1, x2, y2, prevDeltaY, currDeltaY, nextDeltaY;
+		int yStartingPoint, yEndingPoint;
+		boolean discontinuity = false;
+		prevDeltaY = Double.MAX_VALUE;
 		for(int i = 0; i < width; i++) {
-			double x1 = xmin + i*precX;
-			double y1 = f(x1);
-			double x2 = x1 + precX;
-			double y2 = f(x2);
-			int yStartingPoint = height - (int)((y1 - ymin) / precY);
-			int yEndingPoint   = height - (int)((y2 - ymin) / precY);
-			
-			int offsetY = 0;
-			int offsetX = 0;
-			
-			if(absXMIN < absXMAX) {
-				offsetX = (int)((absXMAX - absXMIN) * (width / (absXMIN + absXMAX) / 2));
-			} else if(absXMIN > absXMAX) {				
-				offsetX = -(int)((absXMIN - absXMAX) * (width / (absXMIN + absXMAX) / 2));			
-			} 
-			if(absYMIN < absYMAX) {
-				offsetY = -(int)((absYMAX - absYMIN) * (height / (absYMIN + absYMAX) / 2));
-			} else if(absYMIN > absYMAX) {
-				offsetY = (int)((absYMIN - absYMAX) * (height / (absYMIN + absYMAX) / 2));			
+			x1 = xmin + i*precX;
+			y1 = f(x1);
+			x2 = x1 + precX;
+			y2 = f(x2);
+			currDeltaY = y2-y1;
+			discontinuity = false;
+			if(currDeltaY*prevDeltaY < 0 || Math.abs(currDeltaY) > Math.abs(prevDeltaY)) {
+				int numberOfIterations = 50; // significantly slows down as this number increases
+				double dx = precX / (2*numberOfIterations);
+				double y1Next, y2Next;
+				for(int j = 1; j < numberOfIterations; j++) {
+					y1Next = f(x1+j*dx);
+					y2Next = f(x2-j*dx);
+					nextDeltaY = y2Next - y1Next;
+					if(Math.abs(nextDeltaY) > Math.abs(currDeltaY)) {
+						discontinuity = true;
+						break;
+					}
+				}
 			}
-			//margin of error
-			double moe = 1;
-		
-			if(Math.abs(Math.abs(yStartingPoint) - Math.abs(yEndingPoint)) < width / 40) {
-			if(y2 < ymax * moe && y2 > ymin * moe && x1 < xmax * moe && x1 > xmin * moe) {
-				g.drawLine(i + offsetX, yStartingPoint + offsetY, i + 1 + offsetX, yEndingPoint + offsetY);
+			if(!discontinuity) {
+				prevDeltaY = currDeltaY;
+				yStartingPoint = height - (int)((y1 - ymin) / precY);
+				yEndingPoint = height - (int)((y2 - ymin) / precY);
+				g.drawLine(i, yStartingPoint, i+1, yEndingPoint);
 			}
-			
+			else {
+				prevDeltaY = Double.MAX_VALUE;
 			}
-
 		}
 		
-	}
-	private void drawGrid(Graphics g) {
-		g.setColor(Color.black);
-		double absXMIN = Math.abs(xmin);
-		double absXMAX = Math.abs(xmax);
-		
-		double absYMIN = Math.abs(ymin);
-		double absYMAX = Math.abs(ymax);
-		double absMAXx = Math.max(absXMIN, absXMAX);
-		double absMAXy = Math.max(absYMIN, absYMAX);
-		int halfDim = width / 2;
-		double scale = halfDim / absMAXx;
-		//x axis grid
-		for(int i = (int)xmin; i <= 0; i++) {
-			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
-		}
-		for(int i = 0; i <= (int)(xmax); i++) {
-			g.drawString(""+i, (int) (halfDim + i*scale - 5) , halfDim + 20);
-		}
-		scale = halfDim / absMAXy;
-		//y axis grid
-		for(int i = (int)ymin; i <= 0; i++) {
-			if(i != 0)
-				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
-		}
-		for(int i = 0; i <= (int)(ymax); i++) {
-			if(i != 0)
-				g.drawString(""+i, (int) (halfDim + 5) , (int)(halfDim - (i * scale)));	
-		}
 	}
 
 	@Override
-	protected void paintComponent(Graphics g2) {
-		Graphics2D g = (Graphics2D)g2;
-		
-		g.clearRect(0, 0, width, height);
-		drawAxes(g);
-		drawGrid(g);
-		Random r = new Random();
-		g.setStroke(new BasicStroke(2));
+	protected void paintComponent(Graphics g) {
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.clearRect(0, 0, width, height);
+		drawGrid(g2d);
+		g2d.setFont(new Font("arial", 1, 20));
+		g2d.setStroke(new BasicStroke(2));
 		int funcNum = 0;
-		g.setFont(new Font("arial", 1, 20));
 		try {
 			for(Function function : Window.FunctionList) {
-				
 				reset(function.function, xmin, xmax, ymin, ymax);
-				g.setColor(function.color);
-				g.drawString(function.function, 50, 50 + (funcNum * 30));
-				drawFunction(g);
+				g2d.setColor(function.color);
+				g2d.drawString(function.function, 50, 50 + (funcNum * 30));
+				drawFunction(g2d);
 				funcNum ++;
 			}
 			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			g.setFont(new Font("courier", 1, 40));
-			g.drawString("ERROR", this.getWidth()-20, this.getHeight()/2);
 		}
 	}
 	
