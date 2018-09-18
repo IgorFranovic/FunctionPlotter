@@ -39,6 +39,7 @@ public class Window extends JFrame {
 	public static JButtonCustom JButtonDraw;
 	public static JButtonCustom JButtonUndo;
 	public static JButtonCustom JButtonLink;
+	public static JButtonCustom JButtonClear;
 	
 	public static JLabel JLabelTitle;
 	public static JLabel JLabelValuesX;
@@ -114,6 +115,10 @@ public class Window extends JFrame {
 		JButtonLink.setBounds(150, 750, 100, 50);
 		this.add(JButtonLink);
 		
+		//JButtonClear
+		JButtonClear = new JButtonCustom("JButtonClear", "resources/imgClear.png");
+		JButtonClear.setBounds(330, 70, 20, 20);
+		this.add(JButtonClear);
 	
 		
 		// change initFunction on line 40
@@ -141,8 +146,8 @@ public class Window extends JFrame {
 		//JLabels
 		JLabelTitle = new JLabel("Function Plotter");
 		JLabelTitle.setFont(new Font("serif", 1, 25));
-		JLabelTitle.setForeground(Color.BLUE);
-		JLabelTitle.setBounds(110, 0, 250, 50);
+		JLabelTitle.setForeground(new Color(0, 132, 204));
+		JLabelTitle.setBounds(115, 0, 250, 50);
 		this.add(JLabelTitle);
 		
 		
@@ -224,7 +229,10 @@ public class Window extends JFrame {
 				} break;
 				case "JButtonLink" : {
 					openWebpage("https://github.com/IgorFranovic/FunctionPlotter");
-				}
+				} break;
+				case "JButtonClear" : {
+					JTextAreaFunction.setText("");
+				} break;
 			}
 			
 		}
