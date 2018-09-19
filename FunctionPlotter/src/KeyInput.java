@@ -12,8 +12,8 @@ public class KeyInput extends KeyAdapter {
 			case KeyEvent.VK_ESCAPE : System.exit(1);
 				break;
 			case KeyEvent.VK_ENTER : {
-				if(!Window.JTextAreaFunction.hasFocus())
-					Window.JButtonDraw.doClick();
+				Window.JButtonDraw.doClick();
+				Window.JTextAreaFunction.grabFocus();
 			} break;
 			case KeyEvent.VK_TAB : {
 				// to the right
@@ -29,6 +29,7 @@ public class KeyInput extends KeyAdapter {
 					
 				}
 			} break;
+		
 			/*
 			case KeyEvent.VK_CONTROL : {
 				// to the left
