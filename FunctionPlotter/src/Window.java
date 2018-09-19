@@ -26,8 +26,8 @@ public class Window extends JFrame {
 	public static TextAreaCustom JTextAreaMinY;
 	public static TextAreaCustom JTextAreaMaxY;
 	
-	public static JSlider zoomSlider;
-	public static int zoomPercentage = 0;
+	//public static JSlider zoomSlider;
+	//public static int zoomPercentage = 0;
 	
 	static Random random;
 	
@@ -119,9 +119,9 @@ public class Window extends JFrame {
 		
 		
 		//JSlider
-		zoomSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 1);
-		zoomSlider.setBounds(50, 500, 300, 40);
-		this.add(zoomSlider);
+		//zoomSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 1);
+		//zoomSlider.setBounds(50, 500, 300, 40);
+		//this.add(zoomSlider);
 		
 		
 		//Plotter

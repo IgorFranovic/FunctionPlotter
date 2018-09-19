@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -15,13 +14,52 @@ public class Plotter extends JPanel {
 	 */
 	private static final long serialVersionUID = 75304563973285884L;
 	
+	private String function;
+	
 	private Parser parser;
 	
 	private int width, height;
 	private double xmin, xmax, ymin, ymax;
 	private double precX, precY;
+	
+	public String getFunction() {
+		return function;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
 
+	public int getHeight() {
+		return height;
+	}
+
+	public double getXmin() {
+		return xmin;
+	}
+
+	public double getXmax() {
+		return xmax;
+	}
+
+	public double getYmin() {
+		return ymin;
+	}
+
+	public double getYmax() {
+		return ymax;
+	}
+
+	public double getPrecX() {
+		return precX;
+	}
+
+	public double getPrecY() {
+		return precY;
+	}
+	
 	public Plotter(String function, int width, int height, double xmin, double xmax, double ymin, double ymax) {
+		this.function = function;
 		this.parser = new Parser(function);
 		this.width = width;
 		this.height = height;
@@ -32,8 +70,8 @@ public class Plotter extends JPanel {
 		this.precX = (xmax - xmin) / width;
 		this.precY = (ymax - ymin) / height;
 		
-		this.addMouseListener(new MouseInput());
-		this.addMouseWheelListener(new MouseInput());
+		this.addMouseListener(new MouseInput(this));
+		this.addMouseWheelListener(new MouseInput(this));
 	}
 	
 	public void reset(String function, double xmin, double xmax, double ymin, double ymax) {
@@ -109,7 +147,7 @@ public class Plotter extends JPanel {
 		double x1, y1, x2, y2, prevDeltaY, currDeltaY, nextDeltaY;
 		int yStartingPoint, yEndingPoint;
 		boolean discontinuity = false;
-		prevDeltaY = Double.MAX_VALUE;
+		prevDeltaY = 0;
 		for(int i = 0; i < width; i++) {
 			x1 = xmin + i*precX;
 			y1 = f(x1);
@@ -118,17 +156,12 @@ public class Plotter extends JPanel {
 			currDeltaY = y2-y1;
 			discontinuity = false;
 			if(currDeltaY*prevDeltaY < 0 || Math.abs(currDeltaY) > Math.abs(prevDeltaY)) {
-				int numberOfIterations = 50; // significantly slows down as this number increases
-				double dx = precX / (2*numberOfIterations);
 				double y1Next, y2Next;
-				for(int j = 1; j < numberOfIterations; j++) {
-					y1Next = f(x1+j*dx);
-					y2Next = f(x2-j*dx);
-					nextDeltaY = y2Next - y1Next;
-					if(Math.abs(nextDeltaY) > Math.abs(currDeltaY)) {
-						discontinuity = true;
-						break;
-					}
+				y1Next = f(x1 + precX/width);
+				y2Next = f(x2 - precX/width);
+				nextDeltaY = y2Next - y1Next;
+				if(Math.abs(nextDeltaY) >= Math.abs(currDeltaY)) {
+					discontinuity = true;
 				}
 			}
 			if(!discontinuity) {
@@ -138,7 +171,7 @@ public class Plotter extends JPanel {
 				g.drawLine(i, yStartingPoint, i+1, yEndingPoint);
 			}
 			else {
-				prevDeltaY = Double.MAX_VALUE;
+				prevDeltaY = 0;
 			}
 		}
 		
