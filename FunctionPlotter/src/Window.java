@@ -50,6 +50,7 @@ public class Window extends JFrame {
 	
 	public static Plotter plotter;
 	private int plotterDimension;
+	public static MouseInput mouseInput;
 	
 	public static TextAreaCustom [] textAreaArray;
 	public static int textAreaSelected = 0;
@@ -143,6 +144,10 @@ public class Window extends JFrame {
 		plotter.setPreferredSize(new Dimension(plotterDimension, plotterDimension));
 		this.add(plotter);
 		
+		mouseInput = new MouseInput(plotter);
+		plotter.addMouseListener(mouseInput);
+		plotter.addMouseWheelListener(mouseInput);
+		plotter.addMouseMotionListener(mouseInput);
 		
 		//JLabels
 		JLabelTitle = new JLabel("Function Plotter");
@@ -219,8 +224,11 @@ public class Window extends JFrame {
 					double ymin = Double.parseDouble(JTextAreaMinY.getText());
 					double ymax = Double.parseDouble(JTextAreaMaxY.getText());
 					
+					mouseInput.setAll(xmin, xmax, ymin, ymax);
 					plotter.reset(function, xmin, xmax, ymin, ymax);
-					plotter.repaint();
+					//plotter.repaint();
+					mouseInput.zoomOut(xmin, ymin);
+					mouseInput.zoomIn(xmin, ymin);
 					
 					
 				} break;

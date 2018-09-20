@@ -69,9 +69,6 @@ public class Plotter extends JPanel {
 		this.ymax = ymax;
 		this.precX = (xmax - xmin) / width;
 		this.precY = (ymax - ymin) / height;
-		
-		this.addMouseListener(new MouseInput(this));
-		this.addMouseWheelListener(new MouseInput(this));
 	}
 	
 	public void reset(String function, double xmin, double xmax, double ymin, double ymax) {
@@ -155,7 +152,10 @@ public class Plotter extends JPanel {
 			y2 = f(x2);
 			currDeltaY = y2-y1;
 			discontinuity = false;
-			if(currDeltaY*prevDeltaY < 0 || Math.abs(currDeltaY) > Math.abs(prevDeltaY)) {
+			if((y1 < ymin && y2 > ymax) || (y1 > ymax && y2 < ymin)) {
+				discontinuity = true;
+			}
+			else if(currDeltaY*prevDeltaY < 0 || Math.abs(currDeltaY) > Math.abs(prevDeltaY)) {
 				double y1Next, y2Next;
 				y1Next = f(x1 + precX/width);
 				y2Next = f(x2 - precX/width);

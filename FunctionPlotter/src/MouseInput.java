@@ -7,43 +7,92 @@ public class MouseInput extends MouseAdapter {
 	
 	private Plotter plotter;
 	
+	private double xmin, xmax, ymin, ymax;
+	
+	private double lastX, lastY;
+	private double zoomStep, dragStep;
+	
 	public MouseInput(Plotter plotter) {
 		this.plotter = plotter;
+		this.xmin = plotter.getXmin();
+		this.xmax = plotter.getXmax();
+		this.ymin = plotter.getYmin();
+		this.ymax = plotter.getYmax();
+		this.zoomStep = 0.1;
+		this.dragStep = 0.5;
+	}
+	
+	public void setAll(double xmin, double xmax, double ymin, double ymax) {
+		this.xmin = xmin;
+		this.xmax = xmax;
+		this.ymin = ymin;
+		this.ymax = ymax;
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		double x = plotter.getXmin() + e.getX()*plotter.getPrecX();
-		double y = plotter.getYmax() - e.getY()*plotter.getPrecY();
-		System.out.printf("(%.2f, %.2f)\n", x, y);
+		lastX = xmin + e.getX()*plotter.getPrecX();
+		lastY = ymax - e.getY()*plotter.getPrecY();
+		//System.out.printf("(%.2f, %.2f)\n", lastX, lastY);
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		double currX = xmin + e.getX()*plotter.getPrecX();
+		double currY = ymax - e.getY()*plotter.getPrecY();
+		double deltaX = dragStep*(currX - lastX);
+		double deltaY = dragStep*(currY - lastY);
+		xmin = xmin - deltaX;
+		xmax = xmax - deltaX;
+		ymin = ymin - deltaY;
+		ymax = ymax - deltaY;
+		Window.textAreaArray[1].setText(String.format("%.2f", xmin));
+		Window.textAreaArray[2].setText(String.format("%.2f", xmax));
+		Window.textAreaArray[3].setText(String.format("%.2f", ymin));
+		Window.textAreaArray[4].setText(String.format("%.2f", ymax));
+		plotter.reset(plotter.getFunction(), xmin, xmax, ymin, ymax);
+		plotter.repaint();
+		lastX = currX;
+		lastY = currY;
+		//System.out.printf("(%.2f, %.2f)\n", lastX, lastY);
+	}
+	
+	public void zoomIn(double x, double y) {
+		xmin = xmin + zoomStep*(x - xmin);
+		xmax = xmax - zoomStep*(xmax - x);
+		ymin = ymin + zoomStep*(y - ymin);
+		ymax = ymax - zoomStep*(ymax - x);
+		Window.textAreaArray[1].setText(String.format("%.2f", xmin));
+		Window.textAreaArray[2].setText(String.format("%.2f", xmax));
+		Window.textAreaArray[3].setText(String.format("%.2f", ymin));
+		Window.textAreaArray[4].setText(String.format("%.2f", ymax));
+		plotter.reset(plotter.getFunction(), xmin, xmax, ymin, ymax);
+		plotter.repaint();
+	}
+	
+	public void zoomOut(double x, double y) {
+		xmin = xmin - zoomStep*(x - xmin);
+		xmax = xmax + zoomStep*(xmax - x);
+		ymin = ymin - zoomStep*(y - ymin);
+		ymax = ymax + zoomStep*(ymax - x);
+		Window.textAreaArray[1].setText(String.format("%.2f", xmin));
+		Window.textAreaArray[2].setText(String.format("%.2f", xmax));
+		Window.textAreaArray[3].setText(String.format("%.2f", ymin));
+		Window.textAreaArray[4].setText(String.format("%.2f", ymax));
+		plotter.reset(plotter.getFunction(), xmin, xmax, ymin, ymax);
+		plotter.repaint();
 	}
 	
 	@Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-		double zoomStep = 0.1;
-		double xmin = plotter.getXmin();
-		double xmax = plotter.getXmax();
-		double ymin = plotter.getYmin();
-		double ymax = plotter.getYmax();
-		double precX = plotter.getPrecX();
-		double precY = plotter.getPrecY();
-		double x = xmin + e.getX()*precX;
-		double y = ymax - e.getY()*precY;
-		double newXmin, newXmax, newYmin, newYmax;
+		double x = xmin + e.getX()*plotter.getPrecX();
+		double y = ymax - e.getY()*plotter.getPrecY();
 		if (e.getWheelRotation() < 0) {
             // rotated up
-			newXmin = xmin + zoomStep*(x - xmin);
-			newXmax = xmax - zoomStep*(xmax - x);
-			newYmin = ymin + zoomStep*(y - ymin);
-			newYmax = ymax - zoomStep*(ymax - x);
+			zoomIn(x, y);
         } else {
             // rotated down
-        	newXmin = xmin - zoomStep*(x - xmin);
-			newXmax = xmax + zoomStep*(xmax - x);
-			newYmin = ymin - zoomStep*(y - ymin);
-			newYmax = ymax + zoomStep*(ymax - x);
+        	zoomOut(x, y);
         }
-		plotter.reset(plotter.getFunction(), newXmin, newXmax, newYmin, newYmax);
-		plotter.repaint();
     }
 }
