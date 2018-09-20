@@ -114,11 +114,13 @@ public class Window extends JFrame {
 		JButtonClear = new JButtonCustom("JButtonClear", "resources/imgClear.png", "Left click to clear function field. Right click to clear x and y values!");
 		JButtonClear.setBounds(330, 70, 20, 20);
 		this.add(JButtonClear);
-		
+
 		//JButtonInfo
 		JButtonInfo = new JButtonCustom("JButtonInfo", "resources/imgInfo.png", "Click here for instructions!");
 		JButtonInfo.setBounds(180, 475, 40, 40);
 		this.add(JButtonInfo);
+				
+	
 		
 		// change initFunction on line 75
 		
@@ -168,11 +170,11 @@ public class Window extends JFrame {
 		JLabelZoom.setBounds(180, 465, 250, 50);
 //		this.add(JLabelZoom);
 		
-		JLabelZoom = new JLabel("Created by Nikola Pižurica and Igor Franović");
-		JLabelZoom.setFont(new Font("arial", 1, 10));
-		JLabelZoom.setForeground(Color.GRAY);
-		JLabelZoom.setBounds(80, 715, 250, 50);
-		this.add(JLabelZoom);
+		JLabelAuthors = new JLabel("Created by Nikola Pižurica and Igor Franović");
+		JLabelAuthors.setFont(new Font("arial", 1, 10));
+		JLabelAuthors.setForeground(Color.GRAY);
+		JLabelAuthors.setBounds(80, 715, 250, 50);
+		this.add(JLabelAuthors);
 		
 	
 				
