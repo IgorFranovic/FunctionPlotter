@@ -218,8 +218,10 @@ public class Window extends JFrame {
 					
 				} break;
 				case "JButtonUndo" : {
-					FunctionList.removeLast();
-					plotter.repaint();
+					if(FunctionList.size() > 0) {
+						FunctionList.removeLast();
+						plotter.repaint();
+					}
 				} break;
 				case "JButtonLink" : {
 					openWebpage("https://github.com/IgorFranovic/FunctionPlotter");
