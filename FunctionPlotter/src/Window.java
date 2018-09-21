@@ -2,16 +2,13 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -199,6 +196,8 @@ public class Window extends JFrame {
 		textAreaArray[3] = JTextAreaMinY;
 		textAreaArray[4] = JTextAreaMaxY;
 		
+		setIcon("resources/applicationIcon.png");
+		
 		this.setVisible(true);
 		
 	
@@ -267,5 +266,8 @@ public class Window extends JFrame {
 		    }
 		}
 	}
-
+	
+	public void setIcon(String icon) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(icon)));
+	}
 }
