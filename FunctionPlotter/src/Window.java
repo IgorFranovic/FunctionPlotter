@@ -2,18 +2,18 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.SwingUtilities;
 
 public class Window extends JFrame {
 	// code for the GUI of the program
@@ -36,6 +36,7 @@ public class Window extends JFrame {
 	public static JButtonCustom JButtonLink;
 	public static JButtonCustom JButtonClear;
 	public static JButtonCustom JButtonInfo;
+	public static JButtonCustom JButtonInfoImage;
 	
 	public static JLabel JLabelTitle;
 	public static JLabel JLabelValuesX;
@@ -43,6 +44,8 @@ public class Window extends JFrame {
 	public static JLabel JLabelZoom;
 	public static JLabel JLabelAuthors;
 	public static JLabel JLabelCodeLink;
+	
+	public static boolean JButtonInfoPressed = false;
 	
 
 	
@@ -118,9 +121,14 @@ public class Window extends JFrame {
 
 		//JButtonInfo
 		JButtonInfo = new JButtonCustom("JButtonInfo", "resources/imgInfo.png", "Click here for instructions!");
-		JButtonInfo.setBounds(180, 475, 40, 40);
+		JButtonInfo.setBounds(175, 405, 40, 40);
 		this.add(JButtonInfo);
-				
+		
+		//JButtonInfoImage
+		JButtonInfoImage = new JButtonCustom("JButtonInfoImage", "resources/imgInfoFunctions.png", "");
+		JButtonInfoImage.setBounds(47, 265, 600, 700);
+		JButtonInfoImage.setVisible(false);
+		this.add(JButtonInfoImage);
 	
 		
 		// change initFunction on line 75
@@ -245,6 +253,9 @@ public class Window extends JFrame {
 					JTextAreaFunction.setText("");
 					JTextAreaFunction.grabFocus();
 				} break;
+				case "JButtonInfo" : {
+					JButtonInfoImage.setVisible(!JButtonInfoImage.isVisible());
+				}
 			}
 			
 		}
