@@ -34,6 +34,7 @@ public class Window extends JFrame {
 	public static JButtonCustom JButtonClear;
 	public static JButtonCustom JButtonInfo;
 	public static JButtonCustom JButtonInfoImage;
+	public static JButtonCustom JButtonResetZoom;
 	
 	public static JLabel JLabelTitle;
 	public static JLabel JLabelValuesX;
@@ -126,6 +127,11 @@ public class Window extends JFrame {
 		JButtonInfoImage.setBounds(47, 265, 600, 700);
 		JButtonInfoImage.setVisible(false);
 		this.add(JButtonInfoImage);
+		
+		//JButtonResetZoom
+		JButtonResetZoom = new JButtonCustom("JButtonResetZoom", "resources/imgResetZoom.png", "Reset the position Preset!");
+		JButtonResetZoom.setBounds(175, 505, 40, 40);
+		this.add(JButtonResetZoom);
 	
 		
 		// change initFunction on line 75
@@ -254,7 +260,25 @@ public class Window extends JFrame {
 				} break;
 				case "JButtonInfo" : {
 					JButtonInfoImage.setVisible(!JButtonInfoImage.isVisible());
-				}
+				} break;
+				case "JButtonResetZoom" : {
+					double xmin = -5;
+					double xmax = 5.1;
+					double ymin = -5;
+					double ymax = 5.1;
+					Window.textAreaArray[1].setText("-5");
+					Window.textAreaArray[2].setText("5");
+					Window.textAreaArray[3].setText("-5");
+					Window.textAreaArray[4].setText("5");
+					plotter.reset(plotter.getFunction(), xmin, xmax, ymin, ymax);
+					plotter.repaint();
+					
+					mouseInput.setAll(xmin, xmax, ymin, ymax);
+					plotter.reset(plotter.getFunction(), xmin, xmax, ymin, ymax);
+					//plotter.repaint();
+					mouseInput.zoomOut(xmin, ymin);
+					mouseInput.zoomIn(xmin, ymin);
+				} break;
 			}
 			
 		}
