@@ -237,8 +237,8 @@ public class Window extends JFrame {
 					double ymin = Double.parseDouble(JTextAreaMinY.getText());
 					double ymax = Double.parseDouble(JTextAreaMaxY.getText());
 					
-					mouseInput.setAll(xmin, xmax, ymin, ymax);
-					plotter.reset(function, xmin, xmax, ymin, ymax);
+					mouseInput.setAll(xmin, xmax + 0.1, ymin, ymax + 0.1);
+					plotter.reset(function, xmin, xmax + 0.1, ymin, ymax + 0.1);
 					//plotter.repaint();
 					mouseInput.zoomOut(xmin, ymin);
 					mouseInput.zoomIn(xmin, ymin);
