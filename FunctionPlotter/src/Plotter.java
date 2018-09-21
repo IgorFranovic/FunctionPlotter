@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -21,6 +22,7 @@ public class Plotter extends JPanel {
 	private int width, height;
 	private double xmin, xmax, ymin, ymax;
 	private double precX, precY;
+	static JLabel JLabelCurrentPosition;
 	
 	public String getFunction() {
 		return function;
@@ -69,6 +71,12 @@ public class Plotter extends JPanel {
 		this.ymax = ymax;
 		this.precX = (xmax - xmin) / width;
 		this.precY = (ymax - ymin) / height;
+		
+		JLabelCurrentPosition = new JLabel("");
+		JLabelCurrentPosition.setBounds(0, 0, 100, 20);
+		this.add(JLabelCurrentPosition);
+	
+				
 	}
 	
 	public void reset(String function, double xmin, double xmax, double ymin, double ymax) {

@@ -43,6 +43,7 @@ public class Window extends JFrame {
 	public static JLabel JLabelAuthors;
 	public static JLabel JLabelCodeLink;
 	
+	
 	public static boolean JButtonInfoPressed = false;
 	
 
@@ -192,7 +193,7 @@ public class Window extends JFrame {
 		JLabelAuthors.setBounds(80, 715, 250, 50);
 		this.add(JLabelAuthors);
 		
-	
+
 				
 		textAreaArray = new TextAreaCustom[5];
 		
