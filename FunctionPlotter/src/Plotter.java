@@ -22,7 +22,7 @@ public class Plotter extends JPanel {
 	private int width, height;
 	private double xmin, xmax, ymin, ymax;
 	private double precX, precY;
-	static JLabel JLabelCurrentPosition;
+	
 	
 	public String getFunction() {
 		return function;
@@ -72,10 +72,7 @@ public class Plotter extends JPanel {
 		this.precX = (xmax - xmin) / width;
 		this.precY = (ymax - ymin) / height;
 		
-		JLabelCurrentPosition = new JLabel("");
-		JLabelCurrentPosition.setBounds(0, 0, 100, 20);
-		this.add(JLabelCurrentPosition);
-	
+
 				
 	}
 	
@@ -147,7 +144,12 @@ public class Plotter extends JPanel {
 			g.drawLine(x, 0, x, height);
 		}
 	}
-	
+	private void drawValues(Graphics g) {
+		g.setColor(Color.black);
+		g.setFont(new Font("arial", 1, 11));
+		
+		g.drawString(String.format("( %.2f, %.2f )", MouseInput.currentValueX, MouseInput.currentValueY), MouseInput.currentPosX, MouseInput.currentPosY);
+	}
 	private void drawFunction(Graphics g) throws Exception {
 		double x1, y1, x2, y2, prevDeltaY, currDeltaY, nextDeltaY;
 		int yStartingPoint, yEndingPoint;
@@ -190,6 +192,7 @@ public class Plotter extends JPanel {
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.clearRect(0, 0, width, height);
 		drawGrid(g2d);
+		drawValues(g2d);
 		g2d.setFont(new Font("arial", 1, 20));
 		g2d.setStroke(new BasicStroke(2));
 		int funcNum = 0;

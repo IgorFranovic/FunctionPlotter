@@ -13,7 +13,8 @@ public class MouseInput extends MouseAdapter {
 	
 	private double lastX, lastY;
 	private double zoomStep, dragStep;
-
+	public static double currentValueX, currentValueY;
+	public static int currentPosX, currentPosY;
 	
 	public MouseInput(Plotter plotter) {
 		this.plotter = plotter;
@@ -33,17 +34,32 @@ public class MouseInput extends MouseAdapter {
 	}
 	
 	@Override
+	public void mouseMoved(MouseEvent e) {
+		lastX = xmin + e.getX()*plotter.getPrecX();
+		lastY = ymax - e.getY()*plotter.getPrecY();
+		
+		currentValueX = lastX;
+		currentValueY = lastY;
+		
+		currentPosX = e.getX();
+		currentPosY = e.getY();
+		
+		plotter.repaint();
+		
+	}
+	
+	@Override
 	public void mousePressed(MouseEvent e) {
 		lastX = xmin + e.getX()*plotter.getPrecX();
 		lastY = ymax - e.getY()*plotter.getPrecY();
-		if(SwingUtilities.isRightMouseButton(e)) {
-			System.out.printf("(%.2f, %.2f)\n", lastX, lastY);
-	
-			
-			Plotter.JLabelCurrentPosition.setBounds(e.getX(), e.getY(), 100, 20);
-			Plotter.JLabelCurrentPosition.setText(String.format("( %.2f, %.2f )", lastX, lastY));
-		}
-	
+		
+		currentValueX = lastX;
+		currentValueY = lastY;
+		
+		currentPosX = e.getX();
+		currentPosY = e.getY();
+		
+		plotter.repaint();
 	}
 	
 	@Override
